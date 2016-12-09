@@ -1,17 +1,17 @@
-import java.util.Enumeration;
-import java.util.Vector;
+import java.util.ArrayList;
+
 
 public class Customer {
 
 	private String name;
-	private Vector<Rental> rentals = new Vector<Rental>();
+	private ArrayList<Rental> rentals = new ArrayList<Rental>();
 
 	public Customer(String name) {
 		this.name = name;
 	}
 
 	public void addRental(Rental arg) {
-		rentals.addElement(arg);
+		rentals.add(arg);
 	}
 
 	public String getName() {
@@ -21,24 +21,21 @@ public class Customer {
 	public String statement() {
 		double totalAmount = 0;
 		int frequentRenterPoints = 0;
-		Enumeration<Rental> rentals = this.rentals.elements();
 		String result = "Rental Record for " + getName() + "\n";
 		
-		while (rentals.hasMoreElements()) {
-			Rental each = (Rental) rentals.nextElement();
-			
+		for (Rental each : this.rentals) {
 			double thisAmount = 0;
 			//determine amounts for each line
 			switch (each.getMovie().getPriceCode()) {
-			case Movie.REGULAR:
+			case REGULAR:
 				thisAmount += 2;
 				if (each.getDaysRented() > 2)
 					thisAmount += (each.getDaysRented() - 2) * 1.5;
 				break;
-			case Movie.NEW_RELEASE:
+			case NEW_RELEASE:
 				thisAmount += each.getDaysRented() * 3;
 				break;
-			case Movie.CHILDRENS:
+			case CHILDRENS:
 				thisAmount += 1.5;
 				if (each.getDaysRented() > 3)
 					thisAmount += (each.getDaysRented() - 3) * 1.5;
@@ -47,7 +44,7 @@ public class Customer {
 			// add frequent renter points
 			frequentRenterPoints ++;
 			// add bonus for a two day new release rental
-			if ((each.getMovie().getPriceCode() == Movie.NEW_RELEASE)
+			if ((each.getMovie().getPriceCode() == Movie.PriceCode.NEW_RELEASE)
 					&& each.getDaysRented() > 1)
 				frequentRenterPoints ++;
 			
@@ -55,7 +52,9 @@ public class Customer {
 			result += "\t" + each.getMovie().getTitle()+ "\t" +
 			String.valueOf(thisAmount) + "\n";
 			totalAmount += thisAmount;
+
 		}
+		
 		
 		//add footer lines
 		result += "Amount owed is " + String.valueOf(totalAmount) + "\n";

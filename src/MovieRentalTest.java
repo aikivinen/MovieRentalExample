@@ -1,9 +1,9 @@
 public class MovieRentalTest {
 	
 	public static void main(String[] args){
-		Movie m0 = new Movie("Star Wars", 0);
-		Movie m1 = new Movie("Doctor Strange", 1);
-		Movie m2 = new Movie("Lion King", 2);
+		Movie m0 = new Movie("Star Wars", Movie.PriceCode.REGULAR);
+		Movie m1 = new Movie("Doctor Strange", Movie.PriceCode.NEW_RELEASE);
+		Movie m2 = new Movie("Lion King", Movie.PriceCode.CHILDRENS);
 		
 		Customer c = new Customer("Jack Jackson");
 		c.addRental(new Rental(m0, 3));
